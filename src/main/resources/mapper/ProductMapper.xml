@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hs.product.mapper.ProductMapper">
+
+    <resultMap id="BaseResultMap" type="com.hs.product.domain.Product">
+            <result property="productCode" column="productCode" jdbcType="VARCHAR"/>
+            <result property="productNetValue" column="productNetValue" jdbcType="DECIMAL"/>
+            <result property="netValueDate" column="netValueDate" jdbcType="DATE"/>
+            <result property="productName" column="productName" jdbcType="VARCHAR"/>
+            <result property="riskLevel" column="riskLevel" jdbcType="VARCHAR"/>
+            <result property="productType" column="productType" jdbcType="VARCHAR"/>
+            <result property="description" column="description" jdbcType="VARCHAR"/>
+            <result property="productStatus" column="productStatus" jdbcType="CHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        productCode,productNetValue,netValueDate,
+        productName,riskLevel,productType,
+        description,productStatus
+    </sql>
+</mapper>
