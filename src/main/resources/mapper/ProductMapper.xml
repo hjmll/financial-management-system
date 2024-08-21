@@ -5,7 +5,7 @@
 <mapper namespace="com.hs.product.mapper.ProductMapper">
 
     <resultMap id="BaseResultMap" type="com.hs.product.domain.Product">
-            <result property="productCode" column="productCode" jdbcType="VARCHAR"/>
+            <id property="productCode" column="productCode" jdbcType="VARCHAR"/>
             <result property="productNetValue" column="productNetValue" jdbcType="DECIMAL"/>
             <result property="netValueDate" column="netValueDate" jdbcType="DATE"/>
             <result property="productName" column="productName" jdbcType="VARCHAR"/>

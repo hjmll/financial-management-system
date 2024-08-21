@@ -12,6 +12,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.math.BigDecimal;
 import java.util.Date;
 
+/**
+ * 测试 ProductServiceTest 的功能
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class ProductServiceTest {
