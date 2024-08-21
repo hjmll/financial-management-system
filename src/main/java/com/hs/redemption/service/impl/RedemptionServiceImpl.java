@@ -5,6 +5,7 @@ import com.hs.redemption.mapper.RedemptionMapper;
 import com.hs.redemption.service.RedemptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RedemptionServiceImpl implements RedemptionService {
@@ -13,6 +14,7 @@ public class RedemptionServiceImpl implements RedemptionService {
     RedemptionMapper redemptionMapper;
 
     @Override
+    @Transactional
     public void redeem(Redemption redemption) {
         String id = redemption.getRequestNumber();
         String productCode = redemption.getProductCode();

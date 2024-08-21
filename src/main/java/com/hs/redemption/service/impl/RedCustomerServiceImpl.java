@@ -9,6 +9,7 @@ import com.hs.redemption.service.CustomerService;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,7 @@ public class RedCustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Transactional
     public List<Holding> selectHoldingByFundAccount(String fundAccount) {
         List<String> cardNumbers = holdingMapper.selectCardNumberByFundAccount(fundAccount);
         List<Holding> holdings = new ArrayList<>();

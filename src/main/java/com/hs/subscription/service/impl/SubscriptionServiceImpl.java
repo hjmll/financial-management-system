@@ -7,6 +7,7 @@ import com.hs.subscription.mapper.SubscriptionMapper;
 import com.hs.subscription.service.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -22,6 +23,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     SubProductMapper productMapper;
 
     @Override
+    @Transactional
     public double findBalance(String fundAccount, String tradingAccount) {
         return subscriptionMapper.findBalance(subscriptionMapper.findBankCardNumber(fundAccount, tradingAccount));
     }
@@ -32,6 +34,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
+    @Transactional
     public void subscribe(Subscription subscription) {
         String date = subscription.getDate();
         String transactionNumber = subscription.getTransactionNumber();
