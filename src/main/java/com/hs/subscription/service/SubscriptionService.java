@@ -1,6 +1,5 @@
 package com.hs.subscription.service;
 
-import com.hs.subscription.domain.PreTrade;
 import com.hs.subscription.domain.Subscription;
 
 public interface SubscriptionService {
@@ -10,5 +9,5 @@ public interface SubscriptionService {
 
     void subscribe(Subscription subscription);
 
-    PreTrade preTrade(String fundAccount, String productCode);
+//    PreTrade preTrade(String fundAccount, String productCode);
 }

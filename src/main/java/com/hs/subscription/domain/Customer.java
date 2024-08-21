@@ -35,4 +35,10 @@ public class Customer {
      * 客户可以申购的产品号列表。
      */
     private List<String> productCodeList;
+
+    /**
+     * 余额
+     */
+    private double balance;
+
 }

@@ -33,24 +33,24 @@ public class SubscriptionController {
     @GetMapping
     public List<Account> selectAccount(String account)
     {
-        List<Account> accounts = accountService.selectAccount(account);
-        return accounts;
+        return accountService.selectAccount(account);
     }
 
-    //根据选择的基金账号，返回客户信息，包括其可以选择的产品号列表
+    //根据选择的基金账号和交易账号，返回客户信息，余额，和可以选择的产品号列表
     @GetMapping("/customer")
-    public Customer selectCustomer(String fundAccount)
+    public Customer selectCustomer(String fundAccount,String tradingAccount)
     {
         Customer customer = customerService.selectCustomerByFundAccount(fundAccount);
-        customer.setProductCodeList(productService.selectProductsByFundAccount(fundAccount));
+        customer.setBalance(subscriptionService.findBalance(fundAccount, tradingAccount));
+        customer.setProductCodeList(productService.selectProduct());
         return customer;
     }
 
-    //选择产品号，然后传递交易账户余额、客户风险等级、产品风险等级
+    //选择产品号，然后传递产品风险等级
     @GetMapping("/customer/product")
-    public PreTrade findBalance(String fundAccount, String productCode)
+    public String findBalance(String productCode)
     {
-        return subscriptionService.preTrade(fundAccount, productCode);
+        return productService.selectRiskLevelByProductCode(productCode);
     }
 
     //根据交易时间和基金账号生成申请编号
@@ -66,11 +66,12 @@ public class SubscriptionController {
     {
         double amount = subscriptionDTO.getAmount();
         String fundAccount = subscriptionDTO.getFundAccount();
+        String tradingAccount = subscriptionDTO.getTradingAccount();
         String productCode = subscriptionDTO.getProductCode();
         String tradingNumber = generateTransactionNumber();
         Subscription subscription = new Subscription();
         subscription.setAmount(amount);
-        subscription.setTradingAccount(accountService.findTradingAccount(fundAccount,productCode));
+        subscription.setTradingAccount(tradingAccount);
         subscription.setProductCode(productCode);
         subscription.setCustomerName(customerService.selectCustomerByFundAccount(subscriptionDTO.getFundAccount()).getName());
         subscription.setTransactionNumber(tradingNumber);

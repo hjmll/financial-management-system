@@ -1,6 +1,5 @@
 package com.hs.subscription.service.impl;
 
-import com.hs.subscription.domain.PreTrade;
 import com.hs.subscription.domain.Subscription;
 import com.hs.subscription.mapper.CustomerMapper;
 import com.hs.subscription.mapper.ProductMapper;
@@ -25,8 +24,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     ProductMapper productMapper;
 
     @Override
-    public double findBalance(String fundAccount, String productCode) {
-        return subscriptionMapper.findBalance(subscriptionMapper.findBankCardNumber(fundAccount, productCode));
+    public double findBalance(String fundAccount, String tradingAccount) {
+        return subscriptionMapper.findBalance(subscriptionMapper.findBankCardNumber(fundAccount, tradingAccount));
     }
 
     @Override
@@ -51,12 +50,12 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         subscriptionMapper.updateBankcardLastUpdated(cardNumber, date);
     }
 
-    @Override
-    public PreTrade preTrade(String fundAccount, String productCode) {
-        PreTrade preTrade = new PreTrade();
-        preTrade.setBalance(findBalance(fundAccount, productCode));
-        preTrade.setCustomerRiskLevel(customerMapper.selectCustomerByFundAccount(fundAccount).getRiskLevel());
-        preTrade.setProductRiskLevel(productMapper.selectRiskLevelByProductCode(productCode));
-        return preTrade;
-    }
+//    @Override
+//    public PreTrade preTrade(String fundAccount, String productCode) {
+//        PreTrade preTrade = new PreTrade();
+//        preTrade.setBalance(findBalance(fundAccount, productCode));
+//        preTrade.setCustomerRiskLevel(customerMapper.selectCustomerByFundAccount(fundAccount).getRiskLevel());
+//        preTrade.setProductRiskLevel(productMapper.selectRiskLevelByProductCode(productCode));
+//        return preTrade;
+//    }
 }

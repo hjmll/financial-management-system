@@ -9,8 +9,8 @@ import java.sql.Date;
 
 @Mapper
 public interface SubscriptionMapper {
-    @Select("SELECT card_number FROM account WHERE fund_account = #{fundAccount} AND product_code = #{productCode}")
-    String findBankCardNumber(String fundAccount, String productCode);
+    @Select("SELECT card_number FROM bankcard WHERE fund_account = #{fundAccount} AND trading_account = #{tradingAccount}")
+    String findBankCardNumber(String fundAccount, String tradingAccount);
 
     @Select("SELECT balance FROM bankcard WHERE card_number = #{cardNumber}")
     double findBalance(String cardNumber);

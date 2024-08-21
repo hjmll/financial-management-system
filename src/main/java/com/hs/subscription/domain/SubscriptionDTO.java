@@ -5,9 +5,14 @@ import lombok.Data;
 @Data
 public class SubscriptionDTO {
     /**
-     * 基金账户号，用于标识客户的基金账户以及客户。
+     * 基金账户号，用于标识客户的基金账户。
      */
     private String fundAccount;
+
+    /**
+     * 交易账户号，用于标识客户的交易账户。
+     */
+    private String tradingAccount;
 
     /**
      * 产品号，用于标识产品。

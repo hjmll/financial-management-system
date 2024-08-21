@@ -7,11 +7,11 @@ import java.util.List;
 
 @Mapper
 public interface ProductMapper {
-    @Select("select product_code FROM account WHERE fund_account = #{fundAccount}")
-    List<String> selectProductsByFundAccount(String fundAccount);
+    @Select("select product_code FROM product WHERE product_status = '激活'")
+    List<String> selectProduct();
 
-    @Select("select product_status FROM product WHERE product_code = #{productCode}")
-    String findProductStatus(String productCode);
+//    @Select("select product_status FROM product WHERE product_code = #{productCode}")
+//    String findProductStatus(String productCode);
 
     @Select("SELECT risk_level FROM product WHERE product_code = #{productCode}")
     String selectRiskLevelByProductCode(String productCode);

@@ -18,8 +18,8 @@ public class AccountServiceImpl implements AccountService {
         return accountMapper.selectAccount(account);
     }
 
-    @Override
-    public String findTradingAccount(String fundAccount, String productCode) {
-        return accountMapper.findTradingAccount(fundAccount, productCode);
-    }
+//    @Override
+//    public String findTradingAccount(String fundAccount, String productCode) {
+//        return accountMapper.findTradingAccount(fundAccount, productCode);
+//    }
 }
