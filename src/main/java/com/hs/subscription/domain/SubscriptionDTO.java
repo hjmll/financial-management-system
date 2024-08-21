@@ -23,4 +23,9 @@ public class SubscriptionDTO {
      * 申购金额。
      */
     private double amount;
+
+    /**
+     * 申购时间
+     */
+    private String date;
 }

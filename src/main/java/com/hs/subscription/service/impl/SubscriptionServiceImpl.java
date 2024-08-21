@@ -1,15 +1,13 @@
 package com.hs.subscription.service.impl;
 
 import com.hs.subscription.domain.Subscription;
-import com.hs.subscription.mapper.CustomerMapper;
-import com.hs.subscription.mapper.ProductMapper;
+import com.hs.subscription.mapper.SubCustomerMapper;
+import com.hs.subscription.mapper.SubProductMapper;
 import com.hs.subscription.mapper.SubscriptionMapper;
 import com.hs.subscription.service.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
-import java.time.LocalDate;
 
 @Service
 public class SubscriptionServiceImpl implements SubscriptionService {
@@ -18,10 +16,10 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     SubscriptionMapper subscriptionMapper;
 
     @Autowired
-    CustomerMapper customerMapper;
+    SubCustomerMapper customerMapper;
 
     @Autowired
-    ProductMapper productMapper;
+    SubProductMapper productMapper;
 
     @Override
     public double findBalance(String fundAccount, String tradingAccount) {
@@ -29,14 +27,13 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public int findTodayTransactionNumber() {
-        return subscriptionMapper.findTodayTransactionNumber();
+    public int findTodayRequestNumber(String date) {
+        return subscriptionMapper.findTodayRequestNumber(date);
     }
 
     @Override
     public void subscribe(Subscription subscription) {
-        LocalDate localDate = LocalDate.now();
-        Date date = Date.valueOf(localDate);
+        String date = subscription.getDate();
         String transactionNumber = subscription.getTransactionNumber();
         double amount = subscription.getAmount();
         String productCode =subscription.getProductCode();

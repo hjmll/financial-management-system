@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 @Mapper
-public interface ProductMapper {
+public interface SubProductMapper {
     @Select("select product_code FROM product WHERE product_status = '激活'")
     List<String> selectProduct();
 

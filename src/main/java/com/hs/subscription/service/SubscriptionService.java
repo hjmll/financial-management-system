@@ -5,7 +5,7 @@ import com.hs.subscription.domain.Subscription;
 public interface SubscriptionService {
     double findBalance(String fundAccount, String productCode);
 
-    int findTodayTransactionNumber();
+    int findTodayRequestNumber(String date);
 
     void subscribe(Subscription subscription);
 

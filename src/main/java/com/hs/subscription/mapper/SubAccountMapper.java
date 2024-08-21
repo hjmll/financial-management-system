@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 @Mapper
-public interface AccountMapper {
+public interface SubAccountMapper {
     @Select("SELECT fund_account, trading_account FROM bankcard WHERE trading_account LIKE CONCAT('%', #{account}, '%')")
     List<Account> selectAccount(String account);
 

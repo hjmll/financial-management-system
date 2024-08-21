@@ -9,7 +9,7 @@ import com.hs.subscription.service.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -53,11 +53,12 @@ public class SubscriptionController {
         return productService.selectRiskLevelByProductCode(productCode);
     }
 
-    //根据交易时间和基金账号生成申请编号
-    public String generateTransactionNumber()
+    //根据当天和当天申请次数生成申请编号
+    public String generateRequestId(String date)
     {
-        int tradingNum = subscriptionService.findTodayTransactionNumber();
-        return LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")) + String.format("%06d", tradingNum + 1);
+        int requestNumber = subscriptionService.findTodayRequestNumber(date);
+        return LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE)
+                .format(DateTimeFormatter.ofPattern("yyyyMMdd")) + String.format("%06d", requestNumber + 1);
     }
 
     //申购申请
@@ -68,7 +69,8 @@ public class SubscriptionController {
         String fundAccount = subscriptionDTO.getFundAccount();
         String tradingAccount = subscriptionDTO.getTradingAccount();
         String productCode = subscriptionDTO.getProductCode();
-        String tradingNumber = generateTransactionNumber();
+        String date = subscriptionDTO.getDate();
+        String tradingNumber = generateRequestId(date);
         Subscription subscription = new Subscription();
         subscription.setAmount(amount);
         subscription.setTradingAccount(tradingAccount);
