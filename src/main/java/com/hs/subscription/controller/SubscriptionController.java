@@ -8,6 +8,7 @@ import com.hs.subscription.service.ProductService;
 import com.hs.subscription.service.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.bind.annotation.*;
 
@@ -69,8 +70,10 @@ public class SubscriptionController {
 
     //申购申请
     @PostMapping("/success")
+    @Transactional
     public ResponseEntity<Subscription> subscribe(@RequestBody SubscriptionDTO subscriptionDTO)
     {
+        System.out.println(subscriptionDTO);
         try {
             double amount = subscriptionDTO.getAmount();
             String fundAccount = subscriptionDTO.getFundAccount();
@@ -85,6 +88,7 @@ public class SubscriptionController {
             subscription.setCustomerName(customerService.selectCustomerByFundAccount(fundAccount).getName());
             subscription.setTransactionNumber(tradingNumber);
             subscription.setFundAccount(fundAccount);
+            subscription.setDate(date);
             subscriptionService.subscribe(subscription);
             return ResponseEntity.ok().body(subscription);
         } catch (Exception e) {

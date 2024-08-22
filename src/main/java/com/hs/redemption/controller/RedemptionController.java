@@ -9,6 +9,7 @@ import com.hs.redemption.service.RedemptionService;
 import com.hs.subscription.service.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,6 +53,7 @@ public class RedemptionController {
     }
 
     @PostMapping("/success")
+    @Transactional
     public ResponseEntity<Redemption> handleRedemption(@RequestBody RedemptionDTO redemptionDTO) {
         try {
             String cardNumber = redemptionDTO.getCardNumber();
