@@ -3,6 +3,7 @@ package com.hs.settlement.controller;
 import com.hs.settlement.domain.Request;
 import com.hs.settlement.domain.Settlement;
 import com.hs.settlement.domain.Transaction;
+import com.hs.settlement.service.Halt;
 import com.hs.settlement.service.Initialization;
 import com.hs.settlement.service.Redemption;
 import com.hs.settlement.service.Subsciption;
@@ -16,14 +17,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-
-// 按接收行情后，可传入日期（若不传入则提取最新日期），返回当前日期下所有产品当日净值的记录
-// 数据库进行查询操作
-
-// 按停止当日申请后，传入日期，返回当日提交的待确认的申购数和赎回数
-// 数据库查出当前日期的申购、赎回数
-
-// 按导出数据，不需要调用后端
+// 导出数据，不需要调用后端
 
 @RestController
 @RequestMapping("/settlement")
@@ -38,6 +32,8 @@ public class SettlementController {
     @Autowired
     private Redemption redemptService;
 
+    @Autowired
+    private Halt haltService;
 
     /*日初始化：传入当前日期；返回成功失败、(初始化后日期、更新的产品数)*/
     @GetMapping("/initial")
@@ -117,6 +113,25 @@ public class SettlementController {
             response.put("redemptionList", redemptionList);
             // 赎回金额入账的数据列表
             response.put("transactionList", transactionList);
+            return ResponseEntity.ok(response);
+        }
+        catch (Exception e){
+            response.put("message", e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+
+    /*停止当日申请：传入日期，返回当日提交的待确认的申购数和赎回数*/
+    @GetMapping("/halt")
+    public ResponseEntity<Map<String, Object>> endRequest(String date) {
+        Map<String, Object> response = new HashMap<>();
+        if (!isValidDate(date)) {
+            response.put("message", "Invalid date.");// 前端日期格式不对
+            return ResponseEntity.badRequest().body(response);
+        }
+        try{
+            response.put("subsriptionCount", haltService.getSubCount(date));// 当日待确认的申购数
+            response.put("redemptionCount", haltService.getRedCount(date)); // 当日待确认的赎回数
             return ResponseEntity.ok(response);
         }
         catch (Exception e){
