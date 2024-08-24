@@ -72,7 +72,6 @@ public class SettlementController {
         }
     }
 
-
     /*申购确认：传入初始化后的日期；返回份额交易表的关键字段的列表、交易总数*/
     @GetMapping("/confirmSubscribe")
     public ResponseEntity<Map<String, Object>> confirmSubscribe(String date) {
