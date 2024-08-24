@@ -17,7 +17,7 @@ public class SubscriptionImpl implements Subsciption {
     @Override
     public List<Request> confirmSubscribe(String date) {
         // 从request表中获取当前日期的申购申请
-        List<Request> requests = subsciptionMapper.getRequestsByDate(date);
+        List<Request> requests = subsciptionMapper.getSubRequestsByDate(date);
 
         for (Request request : requests) {
             String productCode = request.getProductCode();

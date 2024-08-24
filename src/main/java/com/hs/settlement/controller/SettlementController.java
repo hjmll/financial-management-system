@@ -2,6 +2,7 @@ package com.hs.settlement.controller;
 
 import com.hs.settlement.domain.Request;
 import com.hs.settlement.domain.Settlement;
+import com.hs.settlement.domain.Transaction;
 import com.hs.settlement.service.Initialization;
 import com.hs.settlement.service.Redemption;
 import com.hs.settlement.service.Subsciption;
@@ -28,7 +29,7 @@ import java.util.*;
 
 // 赎回确认，传入日期，返回份额交易表的关键字段的列表、资金交易表的关键字段的列表、交易总数
 // 数据库找出当前的日期下的每一条赎回申请和对应产品的当日净值
-// 数据库修改份额流水状态为确认，插入一条收入的赎回确认的金额流水
+// 数据库计算金额，修改份额流水状态为确认并填写金额，插入一条收入的赎回确认的金额流水
 
 // 按停止当日申请后，传入日期，返回当日提交的待确认的申购数和赎回数
 // 数据库查出当前日期的申购、赎回数
@@ -70,7 +71,6 @@ public class SettlementController {
     }
 
     /*申购确认：传入初始化后的日期；返回份额交易表的关键字段的列表、交易总数*/
-    // 要先计算申购提交的日期，也就是上一个交易日
     @GetMapping("/confirmSubscribe")
     public ResponseEntity<Map<String, Object>> confirmSubscribe(String date) {
         Map<String, Object> response = new HashMap<>();
@@ -84,6 +84,32 @@ public class SettlementController {
             response.put("confirmCount", subscriptionList.size());// 确认的申购申请数
             // 确认的申购申请的数据列表（订单号、产品代码、金额、份额、订单状态）
             response.put("subscriptionList", subscriptionList);
+            return ResponseEntity.ok(response);
+        }
+        catch (Exception e){
+            response.put("message", e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+
+    /*赎回确认：传入日期，返回份额交易表的关键字段的列表、资金交易表的关键字段的列表、交易总数*/
+    @GetMapping("/confirmRedempt")
+    public ResponseEntity<Map<String, Object>> confirmRedempt(String date) {
+        Map<String, Object> response = new HashMap<>();
+        if (!isValidDate(date)) {
+            response.put("message", "Invalid date.");// 前端日期格式不对
+            return ResponseEntity.badRequest().body(response);
+        }
+        String newDate = getTransactionDate(date,false); // 计算上一个交易日
+        String transactionId = generateTransactionId(date); // 获取今天的新交易流水id
+        try{
+            List<Request> redemptionList =  redemptService.confirmRedempt(newDate, date, transactionId);
+            List<Transaction> transactionList =  redemptService.getTransaction(date);
+            response.put("confirmCount", redemptionList.size());// 确认的赎回申请数
+            // 确认的赎回申请的数据列表（订单号、产品代码、金额、份额、订单状态）
+            response.put("redemptionList", redemptionList);
+            // 赎回金额入账的数据列表
+            response.put("transactionList", transactionList);
             return ResponseEntity.ok(response);
         }
         catch (Exception e){

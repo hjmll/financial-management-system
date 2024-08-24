@@ -7,11 +7,12 @@ import java.util.List;
 
 @Mapper
 public interface SubsciptionMapper {
-    @Select("SELECT * FROM request WHERE date = #{date} AND status = '待确认'")
+    @Select("SELECT * FROM request WHERE date = #{date} AND status = '待确认' AND type = '申购'")
     @Results({
-            @Result(property = "productCode", column = "product_code")
+            @Result(property = "productCode", column = "product_code"),
+            @Result(property = "cardNumber", column = "card_number")
     })
-    List<Request> getRequestsByDate(String date);
+    List<Request> getSubRequestsByDate(String date);
 
     @Select("SELECT product_net_value FROM product WHERE product_code = #{productCode}")
     double getProductNav(@Param("productCode") String productCode);
