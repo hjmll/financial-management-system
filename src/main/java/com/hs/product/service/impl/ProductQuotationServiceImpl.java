@@ -33,6 +33,10 @@ public class ProductQuotationServiceImpl extends ServiceImpl<ProductQuotationMap
         if (productQuotation.getProductCode() == null || productQuotation.getProductCode().trim().isEmpty()) {
             return false;
         }
+        // 设置 tDate 为当前日期，如果它尚未被设置
+        if (productQuotation.getTDate() == null) {
+            productQuotation.setTDate(new Date());
+        }
         return this.save(productQuotation);
     }
 

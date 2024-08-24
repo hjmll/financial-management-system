@@ -1,5 +1,6 @@
 package com.hs.product.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hs.product.domain.Product;
 import com.hs.product.mapper.ProductMapper;
 import org.junit.Test;
@@ -11,6 +12,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * 测试 ProductServiceTest 的功能
@@ -23,6 +27,61 @@ public class ProductServiceTest {
 
     @Autowired
     private ProductService productService;
+
+
+    /*@Before
+    public void setUp() {
+        // 创建一个 ProductServiceImpl 的实例
+        // 这里假设 ProductServiceImpl 已经正确实现了 listProducts 方法
+        productService = new ProductServiceImpl();
+    }*/
+
+   /* *//**
+     * 测试分页查询产品列表的方法
+     *//*
+    @Test
+    public void testListProducts() {
+        // 准备测试数据
+        int currentPage = 1;
+        int pageSize = 3;
+        Product product1 = new Product();
+        product1.setProductCode("PRODUCT135");
+        product1.setProductName("Product 1");
+        product1.setProductNetValue(new BigDecimal(134.00));
+
+        Product product2 = new Product();
+        product2.setProductCode("PRODUCT136");
+        product2.setProductName("Product 2");
+        product2.setProductNetValue(new BigDecimal(125.00));
+
+        List<Product> productList = Arrays.asList(product1, product2);
+
+        // 创建分页对象
+        Page<Product> expectedPage = new Page<>(currentPage, pageSize);
+        expectedPage.setRecords(productList);
+
+        // 模拟分页查询
+        Page<Product> resultPage = productService.listProducts(currentPage, pageSize);
+
+        // 验证结果
+        assertEquals(expectedPage.getRecords(), resultPage.getRecords());
+    }*/
+
+    @Test
+    public void testListProducts() {
+        // 执行分页查询
+        int currentPage = 1;
+        int pageSize = 3;
+        Page<Product> resultPage = productService.listProducts(currentPage, pageSize);
+
+        // 验证结果
+        List<Product> resultList = resultPage.getRecords();
+        assertThat(resultList).hasSize(3); // 每页显示 3 条记录
+        assertThat(resultPage.getTotal()).isEqualTo(5); // 总记录数为 5
+        assertThat(resultPage.getCurrent()).isEqualTo(1); // 当前页码为 1
+        assertThat(resultPage.getSize()).isEqualTo(3); // 页面大小为 3
+        assertThat(resultPage.getPages()).isEqualTo(2); // 总页数为 2
+    }
     @Test
     public void testAddProduct() {
         // 创建一个产品实例

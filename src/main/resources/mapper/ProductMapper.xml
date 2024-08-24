@@ -20,4 +20,11 @@
         productName,riskLevel,productType,
         description,productStatus
     </sql>
+    <!-- 添加 SQL 查询语句 -->
+    <select id="queryProductInfo" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM
+        product
+    </select>
 </mapper>

@@ -1,12 +1,18 @@
 package com.hs.product.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.hs.product.domain.Product;
 import com.hs.product.service.ProductService;
 import com.hs.product.mapper.ProductMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
 * @author hjm
@@ -17,6 +23,73 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product>
     implements ProductService{
+
+    private ProductMapper productMapper;
+    @Autowired
+    public ProductServiceImpl(ProductMapper productMapper) {
+        this.productMapper = productMapper;
+    }
+
+    /**
+     * 分页查询所有产品信息，并返回分页数据列表。
+     *
+     * @param pageNum  页码编号（通常从1开始）
+     * @param pageSize 每页显示的产品数量
+     * @return 包含分页产品信息的列表
+     */
+    @Override
+    public List<Product> findProductsByPage(int pageNum, int pageSize) {
+        // 使用 PageHelper 进行分页设置
+        PageHelper.startPage(pageNum, pageSize);
+
+        // 调用 Mapper 接口查询所有产品信息
+        List<Product> lists = productMapper.queryProductInfo();
+
+        return lists;
+    }
+
+    /**
+     * 分页查询所有产品信息，并返回包含分页信息的对象。
+     *
+     * @param pageNum  页码编号（通常从1开始）
+     * @param pageSize 每页显示的产品数量
+     * @return 包含分页信息和产品数据的 PageInfo 对象
+     */
+    @Override
+    public PageInfo<Product> findPagedProducts(int pageNum, int pageSize) {
+        // 使用 PageHelper 进行分页设置
+        PageHelper.startPage(pageNum, pageSize);
+
+        // 调用 Mapper 接口查询所有产品信息
+        List<Product> lists = productMapper.queryProductInfo();
+
+        // 将查询结果转换为 PageInfo 对象，自动计算分页信息
+        PageInfo<Product> pageInfo = new PageInfo<>(lists);
+
+        return pageInfo;
+    }
+
+   /* *//**
+     * 分页展示产品列表
+     *
+     * @param page     当前页码
+     * @param pageSize 每页显示的数量
+     * @return 分页后的产品列表
+     *//*
+
+    @Override
+    public Page<Product> listProducts(int page, int pageSize) {
+        // 创建一个分页对象
+        Page<Product> pageInfo = new Page<>(page, pageSize);
+
+
+        // 执行分页查询
+        baseMapper.selectPage(pageInfo, null);
+
+        // 返回分页信息
+        return pageInfo;
+    }*/
+
     /**
      * 添加新产品
      *
