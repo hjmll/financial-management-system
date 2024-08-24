@@ -8,23 +8,19 @@ import java.util.List;
 @Mapper
 public interface InitialMapper {
 
-    @Update("UPDATE product SET net_value_date = #{date}, product_net_value = #{nav} WHERE product_code = #{productCode}")
+    @Update("UPDATE product SET date = #{date}, nav = #{nav} WHERE product_code = #{productCode}")
     int initialNav(Settlement settlement);
 
-    @Select("SELECT net_value_date, product_code, product_net_value FROM product WHERE net_value_date = #{date}")
+    @Select("SELECT date, product_code, nav FROM product WHERE date = #{date}")
     @Results({
-            @Result(property = "productCode", column = "product_code"),
-            @Result(property = "date", column = "net_value_date"),
-            @Result(property = "nav", column = "product_net_value")
+            @Result(property = "productCode", column = "product_code")
 
     })
     List<Settlement> getSettlementsByDate(String date);
 
-    @Select("SELECT * FROM product_quotation WHERE net_value_date = (SELECT MAX(net_value_date) FROM product_quotation)")
+    @Select("SELECT * FROM product_quotation WHERE date = (SELECT MAX(date) FROM product_quotation)")
     @Results({
-            @Result(property = "productCode", column = "product_code"),
-            @Result(property = "date", column = "net_value_date"),
-            @Result(property = "nav", column = "product_net_value")
+            @Result(property = "productCode", column = "product_code")
     })
     List<Settlement> getSettlements();
 }
