@@ -5,12 +5,12 @@
 <mapper namespace="com.hs.product.mapper.ProductQuotationMapper">
 
     <resultMap id="BaseResultMap" type="com.hs.product.domain.ProductQuotation">
-            <id property="productCode" column="productCode" jdbcType="VARCHAR"/>
-            <result property="productNetValue" column="productNetValue" jdbcType="DECIMAL"/>
-            <result property="tDate" column="tDate" jdbcType="DATE"/>
+            <id property="productCode" column="product_code" jdbcType="VARCHAR"/>
+            <result property="productNetValue" column="product_net_value" jdbcType="DECIMAL"/>
+            <result property="tDate" column="t_date" jdbcType="DATE"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        productCode,productNetValue,tDate
+        product_code,product_net_value,t_date
     </sql>
 </mapper>

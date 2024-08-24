@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.hs.product.domain.Product;
+import com.hs.product.domain.ProductQuotation;
+import com.hs.product.service.ProductQuotationService;
 import com.hs.product.service.ProductService;
 import com.hs.product.mapper.ProductMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -25,11 +27,13 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product>
     implements ProductService{
 
     private ProductMapper productMapper;
-    @Autowired
-    public ProductServiceImpl(ProductMapper productMapper) {
-        this.productMapper = productMapper;
-    }
+    private ProductQuotationService productQuotationService;
 
+    @Autowired
+    public ProductServiceImpl(ProductMapper productMapper, ProductQuotationService productQuotationService) {
+        this.productMapper = productMapper;
+        this.productQuotationService = productQuotationService;
+    }
     /**
      * 分页查询所有产品信息，并返回分页数据列表。
      *
@@ -102,6 +106,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product>
         if (product.getProductCode() == null || product.getProductCode().trim().isEmpty()) {
             return false;
         }
+
         return this.save(product);
 
     }
@@ -119,10 +124,11 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product>
         }
         // 创建一个 QueryWrapper 对象来指定更新条件
         QueryWrapper<Product> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("productCode", product.getProductCode());
+        queryWrapper.eq("product_code", product.getProductCode());
 
         // 使用 MyBatis Plus 的 update 方法更新产品信息
         return this.update(product, queryWrapper);
+
 
     }
 
@@ -138,7 +144,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product>
             return false;
         }
         QueryWrapper<Product> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("productCode", productCode);
+        queryWrapper.eq("product_code", productCode);
         return this.remove(queryWrapper);
     }
 
@@ -153,7 +159,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product>
         if (productCode == null || productCode.trim().isEmpty()) {
             return null;
         }
-        return this.getOne(new QueryWrapper<Product>().eq("productCode", productCode), false);
+        return this.getOne(new QueryWrapper<Product>().eq("product_code", productCode), false);
     }
 }
 

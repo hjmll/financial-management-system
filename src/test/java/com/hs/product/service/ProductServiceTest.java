@@ -74,10 +74,9 @@ public class ProductServiceTest {
     public void testAddProduct() {
         // 创建一个产品实例
         Product product = new Product();
-        product.setProductCode("PRODUCT137");
+        product.setProductCode("PRODUCT124");
         product.setProductName("Test Fund");
         product.setProductNetValue(new BigDecimal("100.00"));
-        /*product.setNetValueDate(new Date());*/
         // 设置一个指定的净值日期
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
@@ -103,8 +102,16 @@ public class ProductServiceTest {
         Product product = new Product();
         product.setProductCode("PRODUCT123");
         product.setProductName("Updated Test Fund");
-        product.setProductNetValue(new BigDecimal("105.00"));
-        product.setNetValueDate(new Date());
+        product.setProductNetValue(new BigDecimal("1000.00"));
+        // 设置一个指定的净值日期
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date netValueDate = sdf.parse("2024-08-20"); // 例如，设置为今天的日期
+            product.setNetValueDate(netValueDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to parse date", e);
+        }
         product.setRiskLevel("Medium");
         product.setProductType("Bond");
         product.setDescription("An updated test fund for unit testing.");

@@ -5,20 +5,20 @@
 <mapper namespace="com.hs.product.mapper.ProductMapper">
 
     <resultMap id="BaseResultMap" type="com.hs.product.domain.Product">
-            <id property="productCode" column="productCode" jdbcType="VARCHAR"/>
-            <result property="productNetValue" column="productNetValue" jdbcType="DECIMAL"/>
-            <result property="netValueDate" column="netValueDate" jdbcType="DATE"/>
-            <result property="productName" column="productName" jdbcType="VARCHAR"/>
-            <result property="riskLevel" column="riskLevel" jdbcType="VARCHAR"/>
-            <result property="productType" column="productType" jdbcType="VARCHAR"/>
+            <id property="productCode" column="product_code" jdbcType="VARCHAR"/>
+            <result property="productNetValue" column="product_net_value" jdbcType="DECIMAL"/>
+            <result property="netValueDate" column="net_value_date" jdbcType="DATE"/>
+            <result property="productName" column="product_name" jdbcType="VARCHAR"/>
+            <result property="riskLevel" column="risk_level" jdbcType="VARCHAR"/>
+            <result property="productType" column="product_type" jdbcType="VARCHAR"/>
             <result property="description" column="description" jdbcType="VARCHAR"/>
-            <result property="productStatus" column="productStatus" jdbcType="CHAR"/>
+            <result property="productStatus" column="product_status" jdbcType="CHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        productCode,productNetValue,netValueDate,
-        productName,riskLevel,productType,
-        description,productStatus
+        product_code,product_net_value,net_value_date,
+        product_name,risk_level,product_type,
+        description,product_status
     </sql>
     <!-- 添加 SQL 查询语句 -->
     <select id="queryProductInfo" resultMap="BaseResultMap">

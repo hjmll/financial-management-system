@@ -54,7 +54,7 @@ public class ProductQuotationServiceImpl extends ServiceImpl<ProductQuotationMap
         }
         // 创建一个 QueryWrapper 对象来指定更新条件
         QueryWrapper<ProductQuotation> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("productCode", productQuotation.getProductCode());
+        queryWrapper.eq("product_code", productQuotation.getProductCode());
 
         // 使用 MyBatis Plus 的 update 方法更新产品信息
         return this.update(productQuotation, queryWrapper);
@@ -74,8 +74,8 @@ public class ProductQuotationServiceImpl extends ServiceImpl<ProductQuotationMap
             return false;
         }
         QueryWrapper<ProductQuotation> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("productCode", productCode);
-        queryWrapper.eq("tDate", tDate);
+        queryWrapper.eq("product_code", productCode);
+        queryWrapper.eq("t_date", tDate);
         return this.remove(queryWrapper);
     }
 
@@ -93,8 +93,8 @@ public class ProductQuotationServiceImpl extends ServiceImpl<ProductQuotationMap
             return null;
         }
         return this.getOne(new QueryWrapper<ProductQuotation>()
-                .eq("productCode", productCode)
-                .eq("tDate", tDate));
+                .eq("product_code", productCode)
+                .eq("t_date", tDate));
     }
 
     /**
@@ -106,7 +106,7 @@ public class ProductQuotationServiceImpl extends ServiceImpl<ProductQuotationMap
     public List<ChartPoint> getProductQuotationChartPoints(String productCode) {
         // 创建 QueryWrapper 对象
         QueryWrapper<ProductQuotation> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("productCode", productCode);
+        queryWrapper.eq("product_code", productCode);
 
         // 查询产品行情表中的记录
         List<ProductQuotation> productQuotations = baseMapper.selectList(queryWrapper);
