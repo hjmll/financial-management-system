@@ -5,6 +5,7 @@ import com.hs.product.domain.ChartPoint;
 import com.hs.product.domain.ProductQuotation;
 import com.hs.product.service.ProductQuotationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,7 +48,7 @@ public class ProductQuotationController {
 
     // 删除产品行情记录
     @DeleteMapping("/{productCode}/{tDate}")
-    public ResponseEntity<String> deleteProductQuotation(@PathVariable String productCode, @PathVariable Date tDate) {
+    public ResponseEntity<String> deleteProductQuotation(@PathVariable String productCode, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date tDate) {
         boolean success = productQuotationService.deleteProductQuotation(productCode, tDate);
         if (success) {
             return ResponseEntity.ok("Product quotation deleted successfully.");
@@ -58,7 +59,7 @@ public class ProductQuotationController {
 
     // 获取产品特定日期的行情记录
     @GetMapping("/{productCode}/{tDate}")
-    public ResponseEntity<Map<String, Object>> getProductQuotation(@PathVariable String productCode, @PathVariable Date tDate) {
+    public ResponseEntity<Map<String, Object>> getProductQuotation(@PathVariable String productCode, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date tDate) {
         ProductQuotation productQuotation = productQuotationService.getProductQuotation(productCode, tDate);
         if (productQuotation != null) {
             return ResponseEntity.ok(Map.of("productQuotation", productQuotation));

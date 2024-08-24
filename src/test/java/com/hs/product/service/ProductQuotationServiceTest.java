@@ -30,16 +30,31 @@ public class ProductQuotationServiceTest {
 
     private ProductQuotation productQuotation;
 
-    @Before
+   /* @Before
     public void setUp() {
         productQuotation = new ProductQuotation();
         productQuotation.setProductCode("PRODUCT130");
         productQuotation.setProductNetValue(new BigDecimal("300.00"));
         productQuotation.setTDate(new Date());
-    }
+    }*/
 
     @Test
     public void testAddProductQuotation() {
+        productQuotation = new ProductQuotation();
+        productQuotation.setProductCode("PRODUCT130");
+        productQuotation.setProductNetValue(new BigDecimal("300.00"));
+
+        // 设置一个指定的净值日期
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date tDate;
+        try {
+            tDate = sdf.parse("2024-08-19");
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to parse date", e);
+        }
+        productQuotation.setTDate(tDate);
         // 测试
         boolean result = productQuotationService.addProductQuotation(productQuotation);
 
