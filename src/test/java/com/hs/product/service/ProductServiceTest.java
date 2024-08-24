@@ -11,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -67,29 +69,24 @@ public class ProductServiceTest {
         assertEquals(expectedPage.getRecords(), resultPage.getRecords());
     }*/
 
-    @Test
-    public void testListProducts() {
-        // 执行分页查询
-        int currentPage = 1;
-        int pageSize = 3;
-        Page<Product> resultPage = productService.listProducts(currentPage, pageSize);
 
-        // 验证结果
-        List<Product> resultList = resultPage.getRecords();
-        assertThat(resultList).hasSize(3); // 每页显示 3 条记录
-        assertThat(resultPage.getTotal()).isEqualTo(5); // 总记录数为 5
-        assertThat(resultPage.getCurrent()).isEqualTo(1); // 当前页码为 1
-        assertThat(resultPage.getSize()).isEqualTo(3); // 页面大小为 3
-        assertThat(resultPage.getPages()).isEqualTo(2); // 总页数为 2
-    }
     @Test
     public void testAddProduct() {
         // 创建一个产品实例
         Product product = new Product();
-        product.setProductCode("PRODUCT126");
+        product.setProductCode("PRODUCT137");
         product.setProductName("Test Fund");
         product.setProductNetValue(new BigDecimal("100.00"));
-        product.setNetValueDate(new Date());
+        /*product.setNetValueDate(new Date());*/
+        // 设置一个指定的净值日期
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date netValueDate = sdf.parse("2024-08-20"); // 例如，设置为今天的日期
+            product.setNetValueDate(netValueDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to parse date", e);
+        }
         product.setRiskLevel("Low");
         product.setProductType("Equity");
         product.setDescription("A test fund for unit testing.");

@@ -11,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -57,9 +59,18 @@ public class ProductQuotationServiceTest {
     @Test
     public void testDeleteProductQuotation() {
         // 准备测试数据
-        String productCode = "PRODUCT130";
-        Date tDate = new Date();
+        String productCode = "PRODUCT127";
 
+        // 设置一个指定的净值日期
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date tDate;
+        try {
+            tDate = sdf.parse("2024-08-22");
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to parse date", e);
+        }
         // 测试
         boolean result = productQuotationService.deleteProductQuotation(productCode, tDate);
 
@@ -71,11 +82,20 @@ public class ProductQuotationServiceTest {
     public void testGetProductQuotation() {
         // 准备测试数据
         String productCode = "PRODUCT128";
-        Date tDate = new Date();
+        Date tDate;
+        // 设置一个指定的净值日期
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            tDate = sdf.parse("2024-08-21");
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to parse date", e);
+        }
 
         // 测试
         ProductQuotation result = productQuotationService.getProductQuotation(productCode, tDate);
-
+        System.out.println(result);
         // 验证
         assertNotNull(result);
         assertEquals(productCode, result.getProductCode());
@@ -96,9 +116,6 @@ public class ProductQuotationServiceTest {
         chartPoints.forEach(chartPoint -> {
             System.out.println(chartPoint);
         });
-        /*assertEquals(new Date(2024 - 1900, 7, 21), chartPoints.get(0).getDate());
-        assertEquals(100.00, chartPoints.get(0).getValue());
-        assertEquals(new Date(2024 - 1900, 7, 24), chartPoints.get(1).getDate());
-        assertEquals(105.00, chartPoints.get(1).getValue());*/
+
     }
 }
