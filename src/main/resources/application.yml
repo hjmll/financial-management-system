@@ -3,10 +3,10 @@ spring:
     name: financial-management-system
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/hs
+    url: jdbc:mysql://localhost:3306/hs_cs
     username: root
     password: root
-    name: hs
+    name: hs_cs
 
 server:
   port: 8080

@@ -4,9 +4,11 @@ import com.hs.subscription.domain.Customer;
 import com.hs.subscription.mapper.SubCustomerMapper;
 import com.hs.subscription.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 @Service
+@Primary
 public class SubCustomerServiceImpl implements CustomerService {
 
     @Autowired

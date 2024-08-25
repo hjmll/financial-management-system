@@ -4,12 +4,14 @@ import com.hs.settlement.domain.Settlement;
 import com.hs.settlement.mapper.InitialMapper;
 import com.hs.settlement.service.Initialization;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
 
 @Service
+@Primary
 public class InitializationImpl implements Initialization {
 
     @Autowired

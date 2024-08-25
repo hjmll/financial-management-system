@@ -74,7 +74,7 @@ public class ProductServiceTest {
     public void testAddProduct() {
         // 创建一个产品实例
         Product product = new Product();
-        product.setProductCode("PRODUCT124");
+        product.setProductCode("PRODUCT125");
         product.setProductName("Test Fund");
         product.setProductNetValue(new BigDecimal("100.00"));
         // 设置一个指定的净值日期
@@ -86,7 +86,7 @@ public class ProductServiceTest {
             e.printStackTrace();
             throw new RuntimeException("Failed to parse date", e);
         }
-        product.setRiskLevel("Low");
+        product.setRiskLevel("低");
         product.setProductType("Equity");
         product.setDescription("A test fund for unit testing.");
         product.setProductStatus("A");
@@ -100,7 +100,7 @@ public class ProductServiceTest {
     public void testEditProduct() {
         // 创建一个产品实例
         Product product = new Product();
-        product.setProductCode("PRODUCT123");
+        product.setProductCode("PRODUCT124");
         product.setProductName("Updated Test Fund");
         product.setProductNetValue(new BigDecimal("1000.00"));
         // 设置一个指定的净值日期
@@ -112,7 +112,7 @@ public class ProductServiceTest {
             e.printStackTrace();
             throw new RuntimeException("Failed to parse date", e);
         }
-        product.setRiskLevel("Medium");
+        product.setRiskLevel("中");
         product.setProductType("Bond");
         product.setDescription("An updated test fund for unit testing.");
         product.setProductStatus("Inactive");
@@ -126,10 +126,7 @@ public class ProductServiceTest {
     @Test
     public void testDeleteProduct() {
         // 测试产品代码
-        String productCode = "PRODUCT123";
-
-
-
+        String productCode = "PRODUCT124";
         // 执行删除产品操作
         boolean result = productService.deleteProduct(productCode);
 
@@ -142,9 +139,7 @@ public class ProductServiceTest {
     public void testViewProductDetail() {
 
         // 测试产品代码
-        String productCode = "PRODUCT123";
-
-
+        String productCode = "PRODUCT125";
 
         // 执行查看产品详情操作
         Product result = productService.viewProductDetail(productCode);

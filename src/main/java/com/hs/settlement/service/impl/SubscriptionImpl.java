@@ -4,11 +4,13 @@ import com.hs.settlement.domain.Request;
 import com.hs.settlement.mapper.SubsciptionMapper;
 import com.hs.settlement.service.Subsciption;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Primary
 public class SubscriptionImpl implements Subsciption {
 
     @Autowired

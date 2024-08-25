@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.pagehelper.PageInfo;
 import com.hs.product.domain.Product;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ import java.util.List;
 * @description 针对表【product(产品表)】的数据库操作Service
 * @createDate 2024-08-19 23:21:31
 */
+
 public interface ProductService extends IService<Product> {
     //分页查询所有产品信息，并返回分页数据列表
     List<Product> findProductsByPage(int pageNum, int pageSize);

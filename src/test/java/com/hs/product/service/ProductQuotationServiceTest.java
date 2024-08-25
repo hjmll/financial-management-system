@@ -42,7 +42,7 @@ public class ProductQuotationServiceTest {
     public void testAddProductQuotation() {
         productQuotation = new ProductQuotation();
         productQuotation.setProductCode("PRODUCT130");
-        productQuotation.setProductNetValue(new BigDecimal("300.00"));
+        productQuotation.setNav(new BigDecimal("300.00"));
 
         // 设置一个指定的净值日期
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -54,7 +54,7 @@ public class ProductQuotationServiceTest {
             e.printStackTrace();
             throw new RuntimeException("Failed to parse date", e);
         }
-        productQuotation.setTDate(tDate);
+        productQuotation.setDate(tDate);
         // 测试
         boolean result = productQuotationService.addProductQuotation(productQuotation);
 
@@ -114,7 +114,7 @@ public class ProductQuotationServiceTest {
         // 验证
         assertNotNull(result);
         assertEquals(productCode, result.getProductCode());
-        assertEquals(tDate, result.getTDate());
+        assertEquals(tDate, result.getDate());
 
     }
 

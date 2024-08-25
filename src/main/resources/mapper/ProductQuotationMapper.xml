@@ -6,11 +6,11 @@
 
     <resultMap id="BaseResultMap" type="com.hs.product.domain.ProductQuotation">
             <id property="productCode" column="product_code" jdbcType="VARCHAR"/>
-            <result property="productNetValue" column="product_net_value" jdbcType="DECIMAL"/>
-            <result property="tDate" column="t_date" jdbcType="DATE"/>
+            <result property="nav" column="nav" jdbcType="DECIMAL"/>
+            <result property="date" column="date" jdbcType="DATE"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        product_code,product_net_value,t_date
+        product_code,nav,date
     </sql>
 </mapper>

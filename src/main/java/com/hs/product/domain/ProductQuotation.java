@@ -27,13 +27,13 @@ public class ProductQuotation implements Serializable {
     /**
      * 产品当日净值
      */
-    private BigDecimal productNetValue;
+    private BigDecimal nav;
 
     /**
      * 
      */
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date tDate;
+    private Date date;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

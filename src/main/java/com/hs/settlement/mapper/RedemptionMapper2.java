@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 
 @Mapper
-public interface RedemptionMapper {
+public interface RedemptionMapper2 {
 
     @Select("SELECT COUNT(*) FROM transaction WHERE date = #{date}")
     int countTodayTransaction(String date);

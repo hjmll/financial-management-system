@@ -34,8 +34,8 @@ public class ProductQuotationServiceImpl extends ServiceImpl<ProductQuotationMap
             return false;
         }
         // 设置 tDate 为当前日期，如果它尚未被设置
-        if (productQuotation.getTDate() == null) {
-            productQuotation.setTDate(new Date());
+        if (productQuotation.getDate() == null) {
+            productQuotation.setDate(new Date());
         }
         return this.save(productQuotation);
     }
@@ -75,7 +75,7 @@ public class ProductQuotationServiceImpl extends ServiceImpl<ProductQuotationMap
         }
         QueryWrapper<ProductQuotation> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("product_code", productCode);
-        queryWrapper.eq("t_date", tDate);
+        queryWrapper.eq("date", tDate);
         return this.remove(queryWrapper);
     }
 
@@ -94,7 +94,7 @@ public class ProductQuotationServiceImpl extends ServiceImpl<ProductQuotationMap
         }
         return this.getOne(new QueryWrapper<ProductQuotation>()
                 .eq("product_code", productCode)
-                .eq("t_date", tDate));
+                .eq("date", tDate));
     }
 
     /**
@@ -114,7 +114,7 @@ public class ProductQuotationServiceImpl extends ServiceImpl<ProductQuotationMap
         // 将查询结果转换为 ChartPoint 对象列表
         List<ChartPoint> chartPoints = new ArrayList<>();
         for (ProductQuotation productQuotation : productQuotations) {
-            chartPoints.add(new ChartPoint(productQuotation.getTDate(), productQuotation.getProductNetValue()));
+            chartPoints.add(new ChartPoint(productQuotation.getDate(), productQuotation.getNav()));
         }
         return chartPoints;
     }

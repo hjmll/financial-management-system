@@ -1,7 +1,9 @@
 package com.hs.subscription.service;
 
-import java.util.List;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
+@Service("subProductService")
 public interface ProductService {
     List<String> selectProduct();
 

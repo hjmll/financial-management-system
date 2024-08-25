@@ -2,19 +2,21 @@ package com.hs.settlement.service.impl;
 
 import com.hs.settlement.domain.Request;
 import com.hs.settlement.domain.Transaction;
-import com.hs.settlement.mapper.RedemptionMapper;
+import com.hs.settlement.mapper.RedemptionMapper2;
 import com.hs.settlement.mapper.SubsciptionMapper;
 import com.hs.settlement.service.Redemption;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Primary
 public class RedemptionImpl implements Redemption {
 
     @Autowired
-    private RedemptionMapper redemptionMapper;
+    private RedemptionMapper2 redemptionMapper;
 
     @Autowired
     private SubsciptionMapper subsciptionMapper;
