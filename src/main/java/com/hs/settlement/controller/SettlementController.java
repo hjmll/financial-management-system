@@ -3,6 +3,7 @@ package com.hs.settlement.controller;
 import com.hs.settlement.domain.Request;
 import com.hs.settlement.domain.Settlement;
 import com.hs.settlement.domain.Transaction;
+import com.hs.settlement.service.Halt;
 import com.hs.settlement.service.Initialization;
 import com.hs.settlement.service.Redemption;
 import com.hs.settlement.service.Subsciption;
@@ -16,25 +17,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-
-// 按日初始化之后，传入当前日期，返回成功失败、(初始化后日期、更新的产品数)
-// 数据库提取出所有产品的原来净值，计算，插入当前日期下所有产品的新的净值
-
-// 按接收行情后，可传入日期（若不传入则提取最新日期），返回当前日期下所有产品当日净值的记录
-// 数据库进行查询操作
-
-// 申购确认，传入日期，返回份额交易表的关键字段的列表、交易总数
-// 数据库找出当前的日期下的每一条申购申请和对应产品的当日净值
-// 数据库计算份额，修改份额流水状态为确认并填写份额，触发修改持仓中最新的持有份额
-
-// 赎回确认，传入日期，返回份额交易表的关键字段的列表、资金交易表的关键字段的列表、交易总数
-// 数据库找出当前的日期下的每一条赎回申请和对应产品的当日净值
-// 数据库计算金额，修改份额流水状态为确认并填写金额，插入一条收入的赎回确认的金额流水
-
-// 按停止当日申请后，传入日期，返回当日提交的待确认的申购数和赎回数
-// 数据库查出当前日期的申购、赎回数
-
-// 按导出数据，不需要调用后端
+// 导出数据，不需要调用后端
 
 @RestController
 @RequestMapping("/settlement")
@@ -49,6 +32,8 @@ public class SettlementController {
     @Autowired
     private Redemption redemptService;
 
+    @Autowired
+    private Halt haltService;
 
     /*日初始化：传入当前日期；返回成功失败、(初始化后日期、更新的产品数)*/
     @GetMapping("/initial")
@@ -70,6 +55,23 @@ public class SettlementController {
         return ResponseEntity.ok(response);
     }
 
+    /*接收行情：传入日期，返回所有产品当日净值的记录*/
+    @GetMapping("/quotatian")
+    public ResponseEntity<Map<String, Object>> getQuotation() {
+        Map<String, Object> response = new HashMap<>();
+        try{
+            List<Settlement> quotationList = initialService.getQuotation();
+            response.put("allProductCount", quotationList.size());// 获取行情的产品数
+            // 产品行情数据列表（当天日期、产品代码、当日净值）
+            response.put("quotationList", quotationList);
+            return ResponseEntity.ok(response);
+        }
+        catch (Exception e){
+            response.put("message", e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+
     /*申购确认：传入初始化后的日期；返回份额交易表的关键字段的列表、交易总数*/
     @GetMapping("/confirmSubscribe")
     public ResponseEntity<Map<String, Object>> confirmSubscribe(String date) {
@@ -82,7 +84,7 @@ public class SettlementController {
         try{
             List<Request> subscriptionList =  subsciptionService.confirmSubscribe(newDate);
             response.put("confirmCount", subscriptionList.size());// 确认的申购申请数
-            // 确认的申购申请的数据列表（订单号、产品代码、金额、份额、订单状态）
+            // 确认的申购申请的数据列表（订单号、产品代码、银行卡号、金额、份额、订单状态）
             response.put("subscriptionList", subscriptionList);
             return ResponseEntity.ok(response);
         }
@@ -106,10 +108,29 @@ public class SettlementController {
             List<Request> redemptionList =  redemptService.confirmRedempt(newDate, date, transactionId);
             List<Transaction> transactionList =  redemptService.getTransaction(date);
             response.put("confirmCount", redemptionList.size());// 确认的赎回申请数
-            // 确认的赎回申请的数据列表（订单号、产品代码、金额、份额、订单状态）
+            // 确认的赎回申请的数据列表（订单号、产品代码、银行卡号、金额、份额、订单状态）
             response.put("redemptionList", redemptionList);
             // 赎回金额入账的数据列表
             response.put("transactionList", transactionList);
+            return ResponseEntity.ok(response);
+        }
+        catch (Exception e){
+            response.put("message", e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+
+    /*停止当日申请：传入日期，返回当日提交的待确认的申购数和赎回数*/
+    @GetMapping("/halt")
+    public ResponseEntity<Map<String, Object>> endRequest(String date) {
+        Map<String, Object> response = new HashMap<>();
+        if (!isValidDate(date)) {
+            response.put("message", "Invalid date.");// 前端日期格式不对
+            return ResponseEntity.badRequest().body(response);
+        }
+        try{
+            response.put("subsriptionCount", haltService.getSubCount(date));// 当日待确认的申购数
+            response.put("redemptionCount", haltService.getRedCount(date)); // 当日待确认的赎回数
             return ResponseEntity.ok(response);
         }
         catch (Exception e){

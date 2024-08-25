@@ -46,5 +46,10 @@ public class InitializationImpl implements Initialization {
         return updatedCount;
     }
 
+    @Override
+    public List<Settlement> getQuotation(){
+        return initialMapper.getSettlements(); // 获取当前交易日的产品净值
+    }
+
 
 }

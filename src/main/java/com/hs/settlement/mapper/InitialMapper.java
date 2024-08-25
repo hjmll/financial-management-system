@@ -21,5 +21,8 @@ public interface InitialMapper {
     List<Settlement> getSettlementsByDate(String date);
 
     @Select("SELECT * FROM product_quotation WHERE date = (SELECT MAX(date) FROM product_quotation)")
+    @Results({
+            @Result(property = "productCode", column = "product_code")
+    })
     List<Settlement> getSettlements();
 }
