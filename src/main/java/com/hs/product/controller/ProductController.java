@@ -40,19 +40,6 @@ public class ProductController {
         return queryResult;
     }
 
-  /*  *//**
-     * 获取分页后的产品列表
-     *
-     * @param page     当前页码，默认为 1
-     * @param pageSize 每页显示的数量，默认为 3
-     * @return 分页后的产品列表
-     *//*
-    @GetMapping("/list")
-    public Page<Product> listProducts(
-            @RequestParam(value = "page", defaultValue = "1") int page,
-            @RequestParam(value = "pageSize", defaultValue = "3") int pageSize) {
-        return productService.listProducts(page, pageSize);
-    }*/
 
     /**
      * 添加新产品

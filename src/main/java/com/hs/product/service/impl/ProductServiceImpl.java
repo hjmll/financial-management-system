@@ -73,27 +73,6 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product>
         return pageInfo;
     }
 
-   /* *//**
-     * 分页展示产品列表
-     *
-     * @param page     当前页码
-     * @param pageSize 每页显示的数量
-     * @return 分页后的产品列表
-     *//*
-
-    @Override
-    public Page<Product> listProducts(int page, int pageSize) {
-        // 创建一个分页对象
-        Page<Product> pageInfo = new Page<>(page, pageSize);
-
-
-        // 执行分页查询
-        baseMapper.selectPage(pageInfo, null);
-
-        // 返回分页信息
-        return pageInfo;
-    }*/
-
     /**
      * 添加新产品
      *
